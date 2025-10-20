@@ -1,56 +1,53 @@
-# TODO: Change App to Election using Stellar & Freighter
+# TODO: Implement User/Admin Separation with MySQL Database
 
-## Overview
-Transform the current Soroban Bitcoin Price Oracle app into an Election app. This involves replacing existing contracts (BTC token, donation, oracle) with new election-related contracts (e.g., election contract for candidate registration, voting, and result tallying). Update the frontend to include election features like candidate management, voting interface, and results display, while retaining Stellar & Freighter wallet integration.
+## Phase 1: Database Setup
+- [ ] Install MySQL and create database schema
+- [ ] Create `users` table: (id, wallet_address, has_voted BOOLEAN, vote_candidate_id INT, created_at)
+- [ ] Create `candidates` table: (id, name, description, created_at)
+- [ ] Create `admins` table: (id, username, password_hash)
 
-## Steps
+## Phase 2: Backend API Development
+- [ ] Set up Node.js/Express server with MySQL connection
+- [ ] Create API endpoints:
+  - POST /api/auth/user-login (verify wallet connection)
+  - POST /api/vote (save vote to database)
+  - GET /api/candidates (get all candidates)
+  - POST /api/auth/admin-login (static admin: admin/admin123)
+  - GET /api/admin/votes (admin view all votes)
+  - POST /api/admin/candidates (admin register candidate)
+  - GET /api/admin/dashboard (admin statistics)
 
-### 1. Update Project Metadata
-- [x] Change package.json name from "soroban-oracle-project" to "soroban-election-app"
-- [x] Update README.md title and description to reflect Election app
-- [x] Update scripts in package.json to build election contracts instead of oracle/btc/donation
+## Phase 3: Frontend Authentication
+- [ ] Create Login page with two options:
+  - Connect Wallet (for users)
+  - Admin Login (username/password)
+- [ ] Update AppContext to handle user type (user/admin)
+- [ ] Implement session management for admin login
 
-### 2. Create New Contracts
-- [x] Create a new Rust contract for Election in contracts/election/
-  - [x] Implement functions: register_candidate, vote, get_candidates, get_results
-  - [x] Use Soroban SDK for smart contract logic
-- [x] Update Cargo.toml files for the new contract
-- [x] Build and deploy the new contract (update initialize.sh accordingly)
+## Phase 4: User Flow Updates
+- [ ] Modify VoteForm to call API instead of smart contract
+- [ ] Update CandidateList to fetch from API
+- [ ] Remove direct smart contract calls for voting
+- [ ] Add user dashboard showing voting status
 
-### 3. Update Shared Contracts Configuration
-- [x] Modify src/shared/contracts.ts to import and instantiate the new election contract instead of btc, donation, oracle
-- [x] Remove references to old contracts
+## Phase 5: Admin Flow Implementation
+- [ ] Create AdminLayout component
+- [ ] Build AdminDashboard with vote statistics
+- [ ] Create AdminCandidateRegistration form
+- [ ] Build AdminVotesViewer component
+- [ ] Implement admin navigation and routing
 
-### 4. Update Frontend Context
-- [x] Modify src/context/appContext.tsx to include election-related state (e.g., candidates, votes, user vote status)
+## Phase 6: Integration & Testing
+- [ ] Update package.json with new dependencies (mysql2, express, cors, bcrypt)
+- [ ] Test user wallet login flow
+- [ ] Test admin login and functionality
+- [ ] Test vote submission and storage
+- [ ] Test candidate registration by admin
+- [ ] Update README with new setup instructions
 
-### 5. Update Routes and Components
-- [x] Update src/components/AppRoutes.tsx to replace routes with election pages:
-  - [x] Home: CandidateList
-  - [x] Vote: VoteForm
-  - [x] Results: ElectionResults
-  - [x] Register Candidate: RegisterCandidateForm
-- [x] Create new components:
-  - [x] CandidateList.tsx: Display list of candidates
-  - [x] VoteForm.tsx: Allow users to vote for candidates
-  - [x] ElectionResults.tsx: Show voting results
-  - [x] RegisterCandidateForm.tsx: Form to register new candidates
-- [x] Remove old components: PairsList, PairDetails, Mint, Donate, OracleForm
-
-### 6. Update Wallet Integration
-- [x] Ensure Wallet.tsx remains compatible (already uses Stellar & Freighter)
-- [x] Update any contract interactions in components to use the new election contract
-
-### 7. Update Forms and Utils
-- [x] Modify src/components/Forms/ to include election forms (e.g., VoteForm, RegisterCandidate)
-- [x] Update src/utils/ if needed for election logic
-
-### 8. Testing and Deployment
-- [x] Update initialize.sh to deploy election contract
-- [x] Test wallet connection and contract interactions
-- [x] Run npm run dev and verify election features work
-- [x] Update CRON if needed (remove BTC price updates)
-
-### 9. Final Cleanup
-- [x] Remove unused files (e.g., old contract bindings, unused components)
-- [x] Update any remaining references to oracle/BTC in code
+## Phase 7: Security & Deployment
+- [ ] Implement input validation and sanitization
+- [ ] Add rate limiting for API endpoints
+- [ ] Secure admin credentials (hash passwords)
+- [ ] Update deployment scripts for backend
+- [ ] Test full user and admin flows

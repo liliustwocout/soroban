@@ -1,7 +1,6 @@
 import { Box, Button, Card, CardBody, CardHeader, Heading, Radio, RadioGroup, Stack, Text, VStack, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/appContext";
-import { election } from "@/shared/contracts";
 
 const VoteForm = () => {
     const { candidates, setCandidates, walletAddress, hasVoted, setHasVoted } = useAppContext();
@@ -12,8 +11,9 @@ const VoteForm = () => {
     useEffect(() => {
         const fetchCandidates = async () => {
             try {
-                const candidatesData = await election.get_candidates();
-                setCandidates(candidatesData);
+                const response = await fetch('http://localhost:5000/api/candidates');
+                const data = await response.json();
+                setCandidates(data.candidates);
             } catch (error) {
                 console.error("Error fetching candidates:", error);
             }
@@ -22,8 +22,17 @@ const VoteForm = () => {
         const checkVoteStatus = async () => {
             if (walletAddress) {
                 try {
-                    const voted = await election.has_voted(walletAddress);
-                    setHasVoted(voted);
+                    const response = await fetch(`http://localhost:5000/api/auth/user-login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ walletAddress }),
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        setHasVoted(data.user.hasVoted);
+                    }
                 } catch (error) {
                     console.error("Error checking vote status:", error);
                 }
@@ -39,17 +48,40 @@ const VoteForm = () => {
 
         setIsVoting(true);
         try {
-            await election.vote({ voter: walletAddress, candidate: selectedCandidate });
-            setHasVoted(true);
-            toast({
-                title: "Vote submitted successfully!",
-                status: "success",
-                duration: 3000,
-                isClosable: true,
+            const response = await fetch('http://localhost:5000/api/vote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    walletAddress,
+                    candidateId: parseInt(selectedCandidate),
+                }),
             });
-            // Refresh candidates to show updated vote counts
-            const updatedCandidates = await election.get_candidates();
-            setCandidates(updatedCandidates);
+
+            const data = await response.json();
+
+            if (data.success) {
+                setHasVoted(true);
+                toast({
+                    title: "Vote submitted successfully!",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                // Refresh candidates to show updated vote counts
+                const candidatesResponse = await fetch('http://localhost:5000/api/candidates');
+                const candidatesData = await candidatesResponse.json();
+                setCandidates(candidatesData.candidates);
+            } else {
+                toast({
+                    title: "Error submitting vote",
+                    description: data.error || "Please try again",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
         } catch (error) {
             console.error("Error voting:", error);
             toast({

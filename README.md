@@ -1,6 +1,6 @@
 <div>
 
-<h3 align="center">Soroban Election App</h3>
+<h3 align="center">StellarVote: Decentralized Election Platform</h3>
 
   <p align="center"> Blockchain-based Election System on Soroban Stellar (Futurenet)</p>
     - Live app: https://crypto-oracle-p11-oyvhddvfh-julian-dev28.vercel.app<br/>
@@ -8,6 +8,24 @@
     - Tutorial (video): <a href="https://www.youtube.com/watch?v=YEHb36HEUyc">Link</a><br/>
     - Inspired by: <a href="https://github.com/stellar/sorobounty-spectacular/discussions/29">This Sorobounty Submission</a>
 </div>
+
+## Who are you
+
+- **Name:** Lê Phạm Thành Đạt - 23010541
+- **Team Member:** Vũ Anh Kiệt - 23017215
+- **Team Member:** Lê Duy Thái Dương - 23010063
+- **Team Member:** Nguyễn Văn An - 23010163
+- **Institution:** Phenikaa University
+- **Course:** Blockchain Technology
+- **Project Type:** DApp Development Challenge
+
+## Project Details
+
+StellarVote is a decentralized election platform built on Soroban smart contracts that enables secure, transparent, and tamper-proof voting. The platform allows users to register as candidates, cast votes using their Stellar wallets, and view real-time election results. Built on Stellar's Futurenet, it leverages blockchain technology to ensure election integrity and prevent double voting.
+
+## Vision
+
+To revolutionize democratic processes by providing a transparent, secure, and accessible voting platform that eliminates traditional election vulnerabilities while ensuring every vote counts and can be independently verified on the blockchain.
 
 ## Built With
 
@@ -98,7 +116,7 @@ It will execute the `initialize.sh` bash script. \*
 >
 >   `./initialize.sh: Permission denied`
 
-This error occurs when the shell script you’re trying to run doesn’t have the permissions to execute. To fix that, use this command:
+This error occurs when the shell script you're trying to run doesn't have the permissions to execute. To fix that, use this command:
 
 ```sh
 chmod +x initialize.sh

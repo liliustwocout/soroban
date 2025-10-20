@@ -1,7 +1,6 @@
 import { Box, Button, Card, CardBody, CardHeader, Heading, Text, VStack, HStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useAppContext } from "@/context/appContext";
-import { election } from "@/shared/contracts";
 
 const CandidateList = () => {
     const { candidates, setCandidates, walletAddress } = useAppContext();
@@ -9,8 +8,9 @@ const CandidateList = () => {
     useEffect(() => {
         const fetchCandidates = async () => {
             try {
-                const candidatesData = await election.get_candidates();
-                setCandidates(candidatesData);
+                const response = await fetch('http://localhost:5000/api/candidates');
+                const data = await response.json();
+                setCandidates(data.candidates);
             } catch (error) {
                 console.error("Error fetching candidates:", error);
             }
@@ -33,7 +33,7 @@ const CandidateList = () => {
                             <HStack justify="space-between">
                                 <Text fontWeight="bold">Votes: {candidate.vote_count}</Text>
                                 {walletAddress && (
-                                    <Button colorScheme="blue" size="sm">
+                                    <Button colorScheme="blue" size="sm" as="a" href="/vote">
                                         Vote
                                     </Button>
                                 )}

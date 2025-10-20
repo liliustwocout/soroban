@@ -26,6 +26,7 @@ import {
 } from "@chakra-ui/icons";
 import { Link, Outlet } from "react-router-dom";
 import { Wallet } from "@/components/Wallet.tsx";
+import { useAppContext } from "@/context/appContext";
 
 const ButtonToggleTheme = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -50,6 +51,50 @@ const ButtonToggleTheme = () => {
 
 export default function Layout() {
   const { isOpen, onToggle } = useDisclosure();
+  const { userType, walletAddress, setWalletAddress, setHasVoted, setCandidates, setUserType, setAdminToken } = useAppContext();
+
+  const disconnectWallet = () => {
+    setWalletAddress("");
+    setHasVoted(false);
+    setCandidates([]);
+    setUserType(null);
+    setAdminToken(null);
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('wallet');
+  };
+
+  const getNavItems = () => {
+    if (userType === 'admin') {
+      return [
+        {
+          label: "Dashboard",
+          href: "/",
+        },
+        {
+          label: "View Votes",
+          href: "/votes",
+        },
+        {
+          label: "Register Candidate",
+          href: "/register-candidate",
+        },
+      ];
+    }
+    return [
+      {
+        label: "Home",
+        href: "/",
+      },
+      {
+        label: "Vote",
+        href: "/vote",
+      },
+      {
+        label: "Results",
+        href: "/results",
+      },
+    ];
+  };
 
   return (
     <Box>
@@ -89,12 +134,22 @@ export default function Layout() {
             </Flex>
             <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
               <Flex display={{ base: "none", md: "flex" }}>
-                <DesktopNav />
+                <DesktopNav navItems={getNavItems()} />
               </Flex>
             </Flex>
 
             <Flex align={"center"} direction={"row"} gap={4}>
-              <Wallet />
+              {walletAddress && (
+                <Text fontSize="sm" color="gray.600">
+                  {walletAddress.slice(0, 8)}...{walletAddress.slice(-4)}
+                </Text>
+              )}
+              {userType && (
+                <Button colorScheme="red" onClick={disconnectWallet}>
+                  Logout
+                </Button>
+              )}
+              {userType !== 'admin' && !walletAddress && <Wallet />}
               <ButtonToggleTheme />
             </Flex>
           </Flex>
@@ -102,7 +157,7 @@ export default function Layout() {
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav onToggleNavbar={onToggle} />
+        <MobileNav onToggleNavbar={onToggle} navItems={getNavItems()} />
       </Collapse>
 
       <Container mt={10} maxW="750">
@@ -112,14 +167,14 @@ export default function Layout() {
   );
 }
 
-const DesktopNav = () => {
+const DesktopNav = ({ navItems }: { navItems: Array<NavItem> }) => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
   return (
     <Stack direction={"row"} spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
+      {navItems.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
@@ -206,14 +261,14 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   );
 };
 
-const MobileNav = ({ onToggleNavbar }: { onToggleNavbar: any }) => {
+const MobileNav = ({ onToggleNavbar, navItems }: { onToggleNavbar: any, navItems: Array<NavItem> }) => {
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
       p={4}
       display={{ md: "none" }}
     >
-      {NAV_ITEMS.map((navItem) => (
+      {navItems.map((navItem) => (
         <MobileNavItem
           onToggleNavbar={onToggleNavbar}
           key={navItem.label}
@@ -299,22 +354,3 @@ interface NavItem {
   children?: Array<NavItem>;
   href?: string;
 }
-
-const NAV_ITEMS: Array<NavItem> = [
-  {
-    label: "Home",
-    href: "/home",
-  },
-  {
-    label: "Vote",
-    href: "/vote",
-  },
-  {
-    label: "Results",
-    href: "/results",
-  },
-  {
-    label: "Register Candidate",
-    href: "/register",
-  },
-];

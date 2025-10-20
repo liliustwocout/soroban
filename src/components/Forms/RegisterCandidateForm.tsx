@@ -1,7 +1,6 @@
-import { Box, Button, Card, CardBody, CardHeader, Heading, Input, Textarea, VStack, useToast } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardHeader, Heading, Input, Textarea, VStack, useToast, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAppContext } from "@/context/appContext";
-import { election } from "@/shared/contracts";
 
 const RegisterCandidateForm = () => {
     const { walletAddress, candidates, setCandidates } = useAppContext();
@@ -15,19 +14,43 @@ const RegisterCandidateForm = () => {
 
         setIsRegistering(true);
         try {
-            await election.register_candidate({ candidate: name + " - " + description });
-            toast({
-                title: "Candidate registered successfully!",
-                status: "success",
-                duration: 3000,
-                isClosable: true,
+            const response = await fetch('http://localhost:5000/api/admin/candidates', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,
+                },
+                body: JSON.stringify({
+                    name: name.trim(),
+                    description: description.trim(),
+                }),
             });
-            // Refresh candidates list
-            const updatedCandidates = await election.get_candidates();
-            setCandidates(updatedCandidates);
-            // Clear form
-            setName("");
-            setDescription("");
+
+            const data = await response.json();
+
+            if (data.success) {
+                toast({
+                    title: "Candidate registered successfully!",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                // Refresh candidates list
+                const candidatesResponse = await fetch('http://localhost:5000/api/candidates');
+                const candidatesData = await candidatesResponse.json();
+                setCandidates(candidatesData.candidates);
+                // Clear form
+                setName("");
+                setDescription("");
+            } else {
+                toast({
+                    title: "Error registering candidate",
+                    description: data.error || "Please try again",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
         } catch (error) {
             console.error("Error registering candidate:", error);
             toast({
