@@ -11,7 +11,7 @@
 
 ### Admin Dashboard
 ![Admin Dashboard](img/Dashboard.png)
-*Admin Panel Showing Election Statistics And Vote Distribution*
+*Admin Panel Showing Election Statistics & Vote Distribution*
 
 ### Voting Interface
 ![Voting Interface](img/VotingInterface.png)
@@ -19,7 +19,7 @@
 
 ### Election Results
 ![Election Results](img/ElectionResults.png)
-*Real-Time Election Results And Statistics*
+*Real-Time Election Results & Statistics*
 
 ## Who We Are
 
@@ -33,11 +33,11 @@
 
 ## Project Details
 
-StellarVote Is A Decentralized Election Platform Built On Soroban Smart Contracts That Enables Secure, Transparent, And Tamper-Proof Voting. The Platform Allows Users To Register As Candidates, Cast Votes Using Their Stellar Wallets, And View Real-Time Election Results. Built On Stellar's Futurenet, It Leverages Blockchain Technology To Ensure Election Integrity And Prevent Double Voting.
+StellarVote Is A Decentralized Election Platform Built On Soroban Smart Contracts That Enables Secure, Transparent & Tamper-Proof Voting. The Platform Allows Users To Register As Candidates, Cast Votes Using Their Stellar Wallets & View Real-Time Election Results. Built On Stellar's Futurenet, It Leverages Blockchain Technology To Ensure Election Integrity & Prevent Double Voting.
 
 ## Vision
 
-To Revolutionize Democratic Processes By Providing A Transparent, Secure, And Accessible Voting Platform That Eliminates Traditional Election Vulnerabilities While Ensuring Every Vote Counts And Can Be Independently Verified On The Blockchain.
+To Revolutionize Democratic Processes By Providing A Transparent, Secure & Accessible Voting Platform That Eliminates Traditional Election Vulnerabilities While Ensuring Every Vote Counts & Can Be Independently Verified On The Blockchain.
 
 ## Built With
 
@@ -58,36 +58,35 @@ To Revolutionize Democratic Processes By Providing A Transparent, Secure, And Ac
 
 ## Installation
 
-### 1. Clone The Repository  
+### 1. Clone The Repository
 git clone <repositoryUrl>  
 cd StellarVote  
 
-### 2. Install Dependencies  
+### 2. Install Dependencies
 npm install  
 
 ### 3. Set Up MySQL Database
 Make Sure You Have MySQL Installed And Running! Create A Database Named StellarVote!
 
-### 4. Start The Backend Server  
+### 4. Start The Backend Server
 node server.mjs  
 The Server Will Run On http://localhost:5000 & Automatically Create The Necessary Database Tables & Seed Data!
 
-### 5. Start The Frontend Development Server  
+### 5. Start The Frontend Development Server
 npm run dev
-
 The Application Will Be Available At http://localhost:5173
 
 ## Usage
 
 ### For Voters (Users)
-1. **Connect Wallet**: Click "Connect Freighter Wallet" And Approve The Connection
+1. **Connect Wallet**: Click "Connect Freighter Wallet" & Approve The Connection
 2. **View Candidates**: Browse The List Of Registered Candidates On The Home Page
 3. **Cast Vote**: Go To The Vote Page, Select A Candidate & Submit Your Vote
 4. **View Results**: Check The Results Page For Real-Time Election Statistics
 
 ### For Admins
-1. **Admin Login**: Use Username "admin" And Password "admin123"
-2. **Dashboard**: View Election Statistics And Vote Distribution
+1. **Admin Login**: Use Username "admin" & Password "12345678"
+2. **Dashboard**: View Election Statistics & Vote Distribution
 3. **Manage Candidates**: Register New Candidates Through The Admin Panel
 4. **View Votes**: Monitor All Submitted Votes With Voter Details
 
@@ -126,7 +125,7 @@ The Application Will Be Available At http://localhost:5173
 
 - Wallet Signature Verification
 - JWT Token Authentication For Admin Routes
-- Input Validation And Sanitization
+- Input Validation & Sanitization
 - SQL Injection Prevention
 - CORS Protection
 - Vote Integrity Through Database Constraints
@@ -135,5 +134,5 @@ The Application Will Be Available At http://localhost:5173
 
 - Stellar Development Foundation For Soroban
 - Soroban Documentation & Community
-- React And Chakra UI Communities
+- React & Chakra UI Communities
 - All Contributors & Testers
