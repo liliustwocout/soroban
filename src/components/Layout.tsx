@@ -11,7 +11,6 @@ import {
   PopoverTrigger,
   Stack,
   Text,
-  useBreakpointValue,
   useColorMode,
   useColorModeValue,
   useDisclosure,
@@ -24,21 +23,20 @@ import {
   MoonIcon,
   SunIcon,
 } from "@chakra-ui/icons";
-import { Link, Outlet } from "react-router-dom";
-import { Wallet } from "@/components/Wallet.tsx";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Wallet } from "@/components/Wallet";
 import { useAppContext } from "@/context/appContext";
 
 const ButtonToggleTheme = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-
   return (
     <Button
-      variant={"solid"}
-      size={"md"}
-      bg={"red.300"}
+      variant="solid"
+      size="md"
+      bg="red.300"
       display={{ md: "inline-flex" }}
-      fontSize={"sm"}
-      color={"white"}
+      fontSize="sm"
+      color="white"
       onClick={toggleColorMode}
       _hover={{
         bg: "pink.300",
@@ -52,6 +50,7 @@ const ButtonToggleTheme = () => {
 export default function Layout() {
   const { isOpen, onToggle } = useDisclosure();
   const { userType, walletAddress, setWalletAddress, setHasVoted, setCandidates, setUserType, setAdminToken } = useAppContext();
+  const navigate = useNavigate();
 
   const disconnectWallet = () => {
     setWalletAddress("");
@@ -59,77 +58,61 @@ export default function Layout() {
     setCandidates([]);
     setUserType(null);
     setAdminToken(null);
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('wallet');
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("wallet");
+    try {
+      navigate('/');
+    } catch (e) { }
   };
 
   const getNavItems = () => {
-    if (userType === 'admin') {
+    if (userType === "admin") {
       return [
-        {
-          label: "Dashboard",
-          href: "/",
-        },
-        {
-          label: "View Votes",
-          href: "/votes",
-        },
-        {
-          label: "Register Candidate",
-          href: "/register-candidate",
-        },
+        { label: "Dashboard", href: "/" },
+        { label: "View Votes", href: "/Votes" },
+        { label: "Register Candidate", href: "/Register-Candidate" },
       ];
     }
     return [
-      {
-        label: "Home",
-        href: "/",
-      },
-      {
-        label: "Vote",
-        href: "/vote",
-      },
-      {
-        label: "Results",
-        href: "/results",
-      },
+      { label: "Home", href: "/" },
+      { label: "Vote", href: "/Vote" },
+      { label: "Results", href: "/Results" },
     ];
   };
 
   return (
     <Box>
       <Flex
+        position="fixed"
+        top={0}
+        left={0}
+        right={0}
+        zIndex="banner"
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
-        minH={"60px"}
+        minH="64px"
         py={{ base: 2 }}
         px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={"solid"}
-        borderColor={useColorModeValue("gray.200", "gray.900")}
-        align={"center"}
+        borderBottomWidth="1px"
+        borderBottomStyle="solid"
+        borderBottomColor={useColorModeValue("gray.200", "gray.700")}
+        align="center"
       >
         <Container maxW="750">
           <Flex
             bg={useColorModeValue("white", "gray.800")}
             color={useColorModeValue("gray.600", "white")}
-            minH={"60px"}
+            minH="60px"
             py={{ base: 2 }}
             px={{ base: 0 }}
-            align={"center"}
+            align="center"
           >
             <Flex ml={{ base: -2 }} display={{ base: "flex", md: "none" }}>
               <IconButton
                 onClick={onToggle}
-                icon={
-                  isOpen ? (
-                    <CloseIcon w={3} h={3} />
-                  ) : (
-                    <HamburgerIcon w={5} h={5} />
-                  )
-                }
-                variant={"ghost"}
-                aria-label={"Toggle Navigation"}
+                icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+                variant="ghost"
+                aria-label="Toggle Navigation"
               />
             </Flex>
             <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
@@ -137,8 +120,7 @@ export default function Layout() {
                 <DesktopNav navItems={getNavItems()} />
               </Flex>
             </Flex>
-
-            <Flex align={"center"} direction={"row"} gap={4}>
+            <Flex align="center" direction="row" gap={4}>
               {walletAddress && (
                 <Text fontSize="sm" color="gray.600">
                   {walletAddress.slice(0, 8)}...{walletAddress.slice(-4)}
@@ -149,18 +131,16 @@ export default function Layout() {
                   Logout
                 </Button>
               )}
-              {userType !== 'admin' && !walletAddress && <Wallet />}
+              {userType !== "admin" && !walletAddress && <Wallet />}
               <ButtonToggleTheme />
             </Flex>
           </Flex>
         </Container>
       </Flex>
-
       <Collapse in={isOpen} animateOpacity>
         <MobileNav onToggleNavbar={onToggle} navItems={getNavItems()} />
       </Collapse>
-
-      <Container mt={10} maxW="750">
+      <Container pt="80px" maxW="750" textTransform="capitalize">
         <Outlet />
       </Container>
     </Box>
@@ -173,18 +153,15 @@ const DesktopNav = ({ navItems }: { navItems: Array<NavItem> }) => {
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
   return (
-    <Stack direction={"row"} spacing={4}>
+    <Stack direction="row" spacing={4}>
       {navItems.map((navItem) => (
         <Box key={navItem.label}>
-          <Popover trigger={"hover"} placement={"bottom-start"}>
+          <Popover trigger="hover" placement="bottom-start">
             <PopoverTrigger>
-              <Link
-                style={{ cursor: "pointer", width: "100%", height: "100%" }}
-                to={navItem!.href!}
-              >
+              <Link style={{ cursor: "pointer", width: "100%", height: "100%" }} to={navItem!.href!}>
                 <Box
                   p={2}
-                  fontSize={"sm"}
+                  fontSize="sm"
                   fontWeight={500}
                   color={linkColor}
                   _hover={{
@@ -196,15 +173,14 @@ const DesktopNav = ({ navItems }: { navItems: Array<NavItem> }) => {
                 </Box>
               </Link>
             </PopoverTrigger>
-
             {navItem.children && (
               <PopoverContent
                 border={0}
-                boxShadow={"xl"}
+                boxShadow="xl"
                 bg={popoverContentBgColor}
                 p={4}
-                rounded={"xl"}
-                minW={"sm"}
+                rounded="xl"
+                minW="sm"
               >
                 <Stack>
                   {navItem.children.map((child) => (
@@ -223,38 +199,35 @@ const DesktopNav = ({ navItems }: { navItems: Array<NavItem> }) => {
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   return (
     <Box
-      role={"group"}
-      display={"block"}
+      role="group"
+      display="block"
       p={2}
-      rounded={"md"}
+      rounded="md"
       _hover={{ bg: useColorModeValue("pink.50", "gray.900") }}
     >
-      <Stack direction={"row"} align={"center"}>
-        <Link
-          style={{ cursor: "pointer", width: "100%", height: "100%" }}
-          to={href!}
-        >
+      <Stack direction="row" align="center">
+        <Link style={{ cursor: "pointer", width: "100%", height: "100%" }} to={href!}>
           <Box>
             <Text
-              transition={"all .3s ease"}
+              transition="all .3s ease"
               _groupHover={{ color: "pink.400" }}
               fontWeight={500}
             >
               {label}
             </Text>
-            <Text fontSize={"sm"}>{subLabel}</Text>
+            <Text fontSize="sm">{subLabel}</Text>
           </Box>
         </Link>
         <Flex
-          transition={"all .3s ease"}
-          transform={"translateX(-10px)"}
+          transition="all .3s ease"
+          transform="translateX(-10px)"
           opacity={0}
           _groupHover={{ opacity: "100%", transform: "translateX(0)" }}
-          justify={"flex-end"}
-          align={"center"}
+          justify="flex-end"
+          align="center"
           flex={1}
         >
-          <Icon color={"pink.400"} w={5} h={5} as={ChevronRightIcon} />
+          <Icon color="pink.400" w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
     </Box>
@@ -286,7 +259,6 @@ const MobileNavItem = ({
   onToggleNavbar,
 }: NavItem & { onToggleNavbar: any }) => {
   const { isOpen, onToggle } = useDisclosure();
-
   return (
     <Stack spacing={4} onClick={children && onToggle}>
       <Link
@@ -302,7 +274,7 @@ const MobileNavItem = ({
             textDecoration: "none",
           }}
         >
-          <Flex justify={"space-between"}>
+          <Flex justify="space-between">
             <Text
               fontWeight={600}
               color={useColorModeValue("gray.600", "gray.200")}
@@ -312,7 +284,7 @@ const MobileNavItem = ({
             {children && (
               <Icon
                 as={ChevronDownIcon}
-                transition={"all .25s ease-in-out"}
+                transition="all .25s ease-in-out"
                 transform={isOpen ? "rotate(180deg)" : ""}
                 w={6}
                 h={6}
@@ -321,15 +293,14 @@ const MobileNavItem = ({
           </Flex>
         </Box>
       </Link>
-
       <Collapse in={isOpen} animateOpacity style={{ marginTop: "0!important" }}>
         <Stack
           mt={2}
           pl={4}
           borderLeft={1}
-          borderStyle={"solid"}
+          borderStyle="solid"
           borderColor={useColorModeValue("gray.200", "gray.700")}
-          align={"start"}
+          align="start"
         >
           {children &&
             children.map((child) => (

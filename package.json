@@ -1,5 +1,5 @@
 {
-  "name": "soroban-election-app",
+  "name": "election",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,24 +8,23 @@
     "build": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "setup": "npm run clean && ./initialize.sh ${NETWORK:-futurenet} && npm run build-contracts && npm install",
-    "clean": "rm -rf .next .soroban .soroban-example-dapp",
     "reset": "npm run clean && npm run setup",
     "build-contracts": "soroban contract bindings typescript --wasm ./target/wasm32-unknown-unknown/release/election_contract.wasm --id $(cat ./.soroban-example-dapp/election_id) --output-dir ./.soroban/election-contract --network \"$(cat ./.soroban-example-dapp/network)\" --overwrite"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.0",
     "@chakra-ui/react": "^2.8.0",
+    "@creit.tech/stellar-wallets-kit": "^1.9.5",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@stellar/stellar-base": "^14.0.1",
     "@tabler/icons-react": "^2.32.0",
     "@thirdweb-dev/react": "^3.14.37",
     "axios": "^0.27.2",
     "bcryptjs": "^3.0.2",
     "bigint-conversion": "^2.4.1",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "election-contract": "file:.soroban/election-contract",
+    "election": "file:contracts/election",
     "express": "^4.21.2",
     "framer-motion": "^10.16.1",
     "humanize-duration": "^3.29.0",
@@ -38,7 +37,7 @@
     "react-hook-form": "^7.45.4",
     "react-router-dom": "^6.15.0",
     "stellar-sdk": "11.2.1",
-    "stellar-wallets-kit": "github:Creit-Tech/Stellar-Wallets-Kit",
+    "stellar-wallets-kit": "npm:@creit.tech/stellar-wallets-kit@^1.9.5",
     "zustand": "^4.4.1"
   },
   "devDependencies": {

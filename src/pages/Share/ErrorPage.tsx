@@ -17,10 +17,10 @@ const ErrorPage: FC<ErrorPageProps> = ({ error, resetErrorBoundary }) => {
         <AlertIcon />
         <Stack>
           <AlertTitle>{error.message}</AlertTitle>
-          <AlertDescription>Something went wrong:</AlertDescription>
+          <AlertDescription>Something Went Wrong!</AlertDescription>
         </Stack>
       </Alert>
-      <Button onClick={resetErrorBoundary}>Try again</Button>
+      <Button onClick={resetErrorBoundary}>Try Again!</Button>
     </Stack>
   );
 };

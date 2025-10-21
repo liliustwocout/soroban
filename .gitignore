@@ -1,7 +1,0 @@
-node_modules/
-target
-.soroban
-.soroban-example-dapp
-src/shared/config.json
-.vercel
-dist

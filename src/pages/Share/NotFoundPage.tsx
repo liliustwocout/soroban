@@ -15,7 +15,7 @@ export const NotFoundPage = () => {
       <Alert status="info">
         <AlertIcon />
         <AlertTitle>404</AlertTitle>
-        <AlertDescription>You have found a secret place.</AlertDescription>
+        <AlertDescription>You Have Found A Secret Place!</AlertDescription>
       </Alert>
       <Button onClick={() => navigate("/")}>Home</Button>
     </Stack>

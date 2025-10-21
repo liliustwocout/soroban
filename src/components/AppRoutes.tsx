@@ -1,15 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import Layout from "./Layout.tsx";
-import { NotFoundPage } from "@/pages/Share/NotFoundPage.tsx";
-import CandidateList from "./CandidateList.tsx";
-import VoteForm from "./Forms/VoteForm.tsx";
-import ElectionResults from "./ElectionResults.tsx";
-import RegisterCandidateForm from "./Forms/RegisterCandidateForm.tsx";
-import Login from "./Login.tsx";
-import Home from "./Home.tsx";
-import AdminDashboard from "./Admin/AdminDashboard.tsx";
-import AdminVotesViewer from "./Admin/AdminVotesViewer.tsx";
-import AdminCandidateRegistration from "./Admin/AdminCandidateRegistration.tsx";
+import Layout from "./Layout";
+import { NotFoundPage } from "@/pages/Share/NotFoundPage";
+import VoteForm from "./Forms/VoteForm";
+import ElectionResults from "./ElectionResults";
+import Login from "./Login";
+import Home from "./Home";
+import AdminDashboard from "./Admin/AdminDashboard";
+import AdminVotesViewer from "./Admin/AdminVotesViewer";
+import AdminCandidateRegistration from "./Admin/AdminCandidateRegistration";
 import { useAppContext } from "@/context/appContext";
 
 const AppRoutes = () => {
@@ -19,12 +17,12 @@ const AppRoutes = () => {
     return <Login />;
   }
 
-  if (userType === 'admin') {
+  if (userType === "admin") {
     const adminRoutes = [
       { element: <AdminDashboard />, path: "/" },
       { element: <AdminDashboard />, path: "/home" },
       { element: <AdminVotesViewer />, path: "/votes" },
-      { element: <AdminCandidateRegistration />, path: "/register-candidate" },
+      { element: <AdminCandidateRegistration />, path: "/registerCandidate" },
       { element: <NotFoundPage />, path: "/*" },
     ];
 

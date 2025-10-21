@@ -1,17 +1,17 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { IconWallet, IconLogout, IconLoader } from "@tabler/icons-react";
-import CopyButton from "@/components/CopyButton.tsx";
-import { formatShortAddress } from "@/utils/utils.tsx";
+import CopyButton from "@/components/CopyButton";
+import { formatShortAddress } from "@/utils/utils";
 import {
   StellarWalletsKit,
   WalletNetwork,
-  WalletType,
   ISupportedWallet,
 } from "stellar-wallets-kit";
+import { FREIGHTER_ID } from "stellar-wallets-kit/modules/freighter.module";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/appContext";
+import { useNavigate } from "react-router-dom";
 
-// Soroban is only supported on Futurenet right now
 const FUTURENET_DETAILS = {
   network: "FUTURENET",
   networkUrl: "https://horizon-futurenet.stellar.org",
@@ -19,53 +19,39 @@ const FUTURENET_DETAILS = {
 };
 
 const ERRORS = {
-  WALLET_CONNECTION_REJECTED: "Wallet connection rejected",
+  WALLET_CONNECTION_REJECTED: "Wallet Connection Rejected",
 };
 
 const STORAGE_WALLET_KEY = "wallet";
-
-const allowedWallets = [
-  WalletType.FREIGHTER,
-  // WalletType.ALBEDO,
-  // WalletType.XBULL,
+const AllowedWallets = [
+  FREIGHTER_ID,
 ];
 
 export const Wallet = () => {
   const toast = useToast();
   const { walletAddress, setWalletAddress } = useAppContext();
-
-  // Update is not only Futurenet is available
-  const [selectedNetwork] = useState(FUTURENET_DETAILS);
-  // Setup swc, user will set the desired wallet on connect
-  const [SWKKit] = useState(
-    new StellarWalletsKit({
-      network: selectedNetwork.networkPassphrase as WalletNetwork,
-      selectedWallet: WalletType.FREIGHTER,
-    })
-  );
-
+  const navigate = useNavigate();
+  const [SelectedNetwork] = useState(FUTURENET_DETAILS);
+  const [SWKKit] = useState(() => {
+    const { FreighterModule } = require("stellar-wallets-kit/modules/freighter.module");
+    return new StellarWalletsKit({
+      network: SelectedNetwork.networkPassphrase as WalletNetwork,
+      modules: [new FreighterModule()],
+    });
+  });
   const [isLoading, setIsLoading] = useState(false);
 
-  // Whenever the selected network changes, set the network on swc
-  useEffect(() => {
-    SWKKit.setNetwork(selectedNetwork.networkPassphrase as WalletNetwork);
-  }, [selectedNetwork.networkPassphrase, SWKKit]);
-
-  const getWalletAddress = async (type: WalletType) => {
+  const GetWalletAddress = async (productId: string) => {
     try {
       setIsLoading(true);
-      // Set selected wallet, network, and public key
-      SWKKit.setWallet(type);
-      const publicKey = await SWKKit.getPublicKey();
-      SWKKit.setNetwork(WalletNetwork.FUTURENET);
-
-      // Short timeout to prevent blick on loading address
+      SWKKit.setWallet(productId);
+      const { address: PublicKey } = await SWKKit.getAddress();
       setTimeout(() => {
-        setWalletAddress(publicKey);
-        localStorage.setItem(STORAGE_WALLET_KEY, type);
+        setWalletAddress(PublicKey);
+        localStorage.setItem(STORAGE_WALLET_KEY, productId);
         setIsLoading(false);
       }, 500);
-    } catch (error) {
+    } catch (Error) {
       localStorage.removeItem(STORAGE_WALLET_KEY);
       setIsLoading(false);
       toast({
@@ -81,24 +67,19 @@ export const Wallet = () => {
   };
 
   useEffect(() => {
-    const storedWallet = localStorage.getItem(STORAGE_WALLET_KEY);
-    if (
-      storedWallet &&
-      Object.values(WalletType).includes(storedWallet as WalletType)
-    ) {
+    const StoredWallet = localStorage.getItem(STORAGE_WALLET_KEY);
+    if (StoredWallet && AllowedWallets.includes(StoredWallet)) {
       (async () => {
-        await getWalletAddress(storedWallet as WalletType);
+        await GetWalletAddress(StoredWallet);
       })();
     }
   }, []);
 
   const onClick = async () => {
     if (!walletAddress) {
-      // See https://github.com/Creit-Tech/Stellar-Wallets-Kit/tree/main for more options
       await SWKKit.openModal({
-        allowedWallets,
-        onWalletSelected: async (option: ISupportedWallet) => {
-          await getWalletAddress(option.type);
+        onWalletSelected: async (Option: ISupportedWallet) => {
+          await GetWalletAddress(Option.id);
         },
       });
     }
@@ -107,10 +88,10 @@ export const Wallet = () => {
   if (isLoading) {
     return (
       <Button
-        fontSize={"sm"}
+        fontSize="sm"
         fontWeight={600}
-        color={"white"}
-        bg={"gray.700"}
+        color="white"
+        bg="gray.700"
         rightIcon={<IconLoader />}
       >
         Loading
@@ -122,20 +103,24 @@ export const Wallet = () => {
     const onDisconnect = () => {
       setWalletAddress("");
       localStorage.removeItem(STORAGE_WALLET_KEY);
+      try {
+        navigate('/');
+      } catch (e) {
+        // noop
+      }
     };
-
     return (
       <>
         <CopyButton
           str={String(formatShortAddress(walletAddress))}
           value={walletAddress}
-          size={"xs"}
+          size="xs"
         />
         <Button
-          fontSize={"sm"}
+          fontSize="sm"
           fontWeight={600}
-          color={"white"}
-          bg={"gray.400"}
+          color="white"
+          bg="gray.400"
           rightIcon={<IconLogout />}
           onClick={onDisconnect}
           _hover={{ bg: "gray.300" }}
@@ -148,10 +133,10 @@ export const Wallet = () => {
 
   return (
     <Button
-      fontSize={"sm"}
+      fontSize="sm"
       fontWeight={600}
-      color={"white"}
-      bg={"pink.400"}
+      color="white"
+      bg="pink.400"
       rightIcon={<IconWallet />}
       onClick={onClick}
       _hover={{ bg: "pink.300" }}
@@ -160,3 +145,5 @@ export const Wallet = () => {
     </Button>
   );
 };
+
+export default Wallet;

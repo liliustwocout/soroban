@@ -1,25 +1,33 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-
 interface Candidate {
   id: number;
   name: string;
   description: string;
   vote_count: number;
 }
-
-const AppContext = createContext({
+const AppContext = createContext<{
+  walletAddress: string;
+  setWalletAddress: (value: string) => void;
+  candidates: Candidate[];
+  setCandidates: (value: Candidate[]) => void;
+  hasVoted: boolean;
+  setHasVoted: (value: boolean) => void;
+  userType: 'user' | 'admin' | null;
+  setUserType: (value: 'user' | 'admin' | null) => void;
+  adminToken: string | null;
+  setAdminToken: (value: string | null) => void;
+}>({
   walletAddress: "",
-  setWalletAddress: (value: any) => value,
-  candidates: [] as Candidate[],
-  setCandidates: (value: Candidate[]) => value,
+  setWalletAddress: () => { },
+  candidates: [],
+  setCandidates: () => { },
   hasVoted: false,
-  setHasVoted: (value: boolean) => value,
-  userType: null as 'user' | 'admin' | null,
-  setUserType: (value: 'user' | 'admin' | null) => value,
-  adminToken: null as string | null,
-  setAdminToken: (value: string | null) => value,
+  setHasVoted: () => { },
+  userType: null,
+  setUserType: () => { },
+  adminToken: null,
+  setAdminToken: () => { },
 });
-
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -28,7 +36,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [hasVoted, setHasVoted] = useState(false);
   const [userType, setUserType] = useState<'user' | 'admin' | null>(null);
   const [adminToken, setAdminToken] = useState<string | null>(null);
-
   useEffect(() => {
     const storedAdminToken = localStorage.getItem('adminToken');
     if (storedAdminToken) {
@@ -36,7 +43,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       setUserType('admin');
     }
   }, []);
-
   return (
     <AppContext.Provider value={{
       walletAddress,
@@ -54,5 +60,4 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     </AppContext.Provider>
   );
 };
-
 export const useAppContext = () => useContext(AppContext);

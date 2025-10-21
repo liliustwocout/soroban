@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import * as SorobanClient from "soroban-client";
-let xdr = SorobanClient.xdr;
+import { SorobanRpc, xdr } from "stellar-sdk";
 
 interface GeneratedLibrary {
-  Server: SorobanClient.Server;
+  Server: SorobanRpc.Server;
   CONTRACT_ID_HEX: string;
 }
 
-interface GetEventsWithLatestLedger
-  extends SorobanClient.SorobanRpc.GetEventsResponse {
-  latestLedger: string;
+interface GetEventsWithLatestLedger {
+  latestLedger: string | number;
+  events?: any[];
 }
 
 type PagingKey = string;
@@ -22,14 +21,14 @@ const paging: Record<
 export function useSubscription(
   library: GeneratedLibrary,
   topic: string,
-  onEvent: (event: SorobanClient.SorobanRpc.EventResponse) => void,
+  onEvent: (event: any) => void,
   pollInterval = 5000
 ) {
   const id = `${library.CONTRACT_ID_HEX}:${topic}`;
   paging[id] = paging[id] || {};
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timer | null = null;
+    let timeoutId: NodeJS.Timeout | null = null;
     let stop = false;
 
     async function pollEvents(): Promise<void> {
@@ -55,24 +54,26 @@ export function useSubscription(
         })) as GetEventsWithLatestLedger;
 
         paging[id].pagingToken = undefined;
+
         if (response.latestLedger) {
-          paging[id].lastLedgerStart = parseInt(response.latestLedger);
+          paging[id].lastLedgerStart = typeof response.latestLedger === 'string'
+            ? parseInt(response.latestLedger, 10)
+            : response.latestLedger;
         }
-        response.events &&
-          response.events.forEach((event) => {
+
+        if (response.events && Array.isArray(response.events)) {
+          response.events.forEach((event: any) => {
             try {
               onEvent(event);
             } catch (error) {
-              console.error(
-                "Poll Events: subscription callback had error: ",
-                error
-              );
+              console.error("Poll Events: Subscription Callback Had Error: ", error);
             } finally {
               paging[id].pagingToken = event.pagingToken;
             }
           });
+        }
       } catch (error) {
-        console.error("Poll Events: error: ", error);
+        console.error("Poll Events: Error: ", error);
       } finally {
         if (!stop) {
           timeoutId = setTimeout(pollEvents, pollInterval);
@@ -83,7 +84,6 @@ export function useSubscription(
     pollEvents();
 
     return () => {
-      // @ts-ignore
       if (timeoutId != null) clearTimeout(timeoutId);
       stop = true;
     };

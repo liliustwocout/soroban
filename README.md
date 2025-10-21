@@ -2,28 +2,26 @@
 
 <h3 align="center">StellarVote: Decentralized Election Platform</h3>
 
-  <p align="center"> Blockchain-based Election System on Soroban Stellar (Futurenet)</p>
+  <p align="center"> Blockchain-Based Election System On Soroban Stellar (Futurenet)</p>
 </div>
 
-## Screenshots
-
 ### Login Screen
-![Login Screen](img/login-screen.png)
-*Users can connect their Freighter wallet or login as admin*
+![Login Screen](img/LoginScreen.png)
+*Users Can Connect Their Freighter Wallet Or Login As Admin*
 
 ### Admin Dashboard
-![Admin Dashboard](img/dashboard.png)
-*Admin panel showing election statistics and vote distribution*
+![Admin Dashboard](img/Dashboard.png)
+*Admin Panel Showing Election Statistics And Vote Distribution*
 
 ### Voting Interface
-![Voting Interface](img/voting-interface.png)
-*User interface for casting votes with candidate selection*
+![Voting Interface](img/VotingInterface.png)
+*User Interface For Casting Votes With Candidate Selection*
 
 ### Election Results
-![Election Results](img/election-results.png)
-*Real-time election results and statistics*
+![Election Results](img/ElectionResults.png)
+*Real-Time Election Results And Statistics*
 
-## Who are you
+## Who We Are
 
 - **Name:** Lê Phạm Thành Đạt - 23010541
 - **Team Member:** Vũ Anh Kiệt - 23017215
@@ -35,15 +33,15 @@
 
 ## Project Details
 
-StellarVote is a decentralized election platform built on Soroban smart contracts that enables secure, transparent, and tamper-proof voting. The platform allows users to register as candidates, cast votes using their Stellar wallets, and view real-time election results. Built on Stellar's Futurenet, it leverages blockchain technology to ensure election integrity and prevent double voting.
+StellarVote Is A Decentralized Election Platform Built On Soroban Smart Contracts That Enables Secure, Transparent, And Tamper-Proof Voting. The Platform Allows Users To Register As Candidates, Cast Votes Using Their Stellar Wallets, And View Real-Time Election Results. Built On Stellar's Futurenet, It Leverages Blockchain Technology To Ensure Election Integrity And Prevent Double Voting.
 
 ## Vision
 
-To revolutionize democratic processes by providing a transparent, secure, and accessible voting platform that eliminates traditional election vulnerabilities while ensuring every vote counts and can be independently verified on the blockchain.
+To Revolutionize Democratic Processes By Providing A Transparent, Secure, And Accessible Voting Platform That Eliminates Traditional Election Vulnerabilities While Ensuring Every Vote Counts And Can Be Independently Verified On The Blockchain.
 
 ## Built With
 
-- Soroban smart contracts - https://soroban.stellar.org
+- Soroban Smart Contracts - https://soroban.stellar.org
 - React
 - IPFS Storage - https://thirdweb.com/dashboard/infrastructure/storage
 - Chakra UI - https://chakra-ui.com/
@@ -52,130 +50,104 @@ To revolutionize democratic processes by providing a transparent, secure, and ac
 
 ### Prerequisites
 
-- **Node v18** - Install here: https://nodejs.org/en/download
-- **Rust** - How to install Rust:
+- **Node v18** - Install Here: https://nodejs.org/en/download
+- **Rust** - How To Install Rust:
   [https://soroban.stellar.org/docs/getting-started/setup#install-rust](https://soroban.stellar.org/docs/getting-started/setup#install-rust)
-
-- **Soroban CLI** - How to install Soroban CLI:
+- **Soroban CLI** - How To Install Soroban CLI:
   [https://soroban.stellar.org/docs/getting-started/setup#install-the-soroban-cli](https://soroban.stellar.org/docs/getting-started/setup#install-the-soroban-cli)
-- **Stellar Account with test tokens on Futurenet** - How to create new wallet using soroban-cli & receive test tokens:
+- **Stellar Account With Test Tokens On Futurenet** - How To Create New Wallet Using Soroban-CLI & Receive Test Tokens:
   [https://soroban.stellar.org/docs/getting-started/deploy-to-futurenet#configure-an-identity](https://soroban.stellar.org/docs/getting-started/deploy-to-futurenet#configure-an-identity)
-
-- **Freighter Wallet** - Wallet extension for interact with the app. Link: https://www.freighter.app
+- **Freighter Wallet** - Wallet Extension For Interact With The App. Link: https://www.freighter.app
 
 ## Installation
 
-### 1. Clone the repository
-```bash
-git clone <repository-url>
-cd soroban-dapps-challenge
-```
+### 1. Clone The Repository
 
-### 2. Install dependencies
-```bash
+bash
+git clone <repositoryUrl>
+cd StellarVote
+
+
+### 2. Install Dependencies
+
+bash
 npm install
-```
 
-### 3. Set up environment variables
-Create a `.env` file in the root directory with the following variables:
-```env
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_mysql_password
-DB_NAME=stellarvote
-JWT_SECRET=your_jwt_secret_key
-PORT=5000
-```
 
-### 4. Set up MySQL database
-Make sure you have MySQL installed and running. Create a database named `stellarvote`.
+### 3. Set Up MySQL Database
+Make Sure You Have MySQL Installed And Running. Create A Database Named StellarVote.
 
-### 5. Start the backend server
-```bash
+### 4. Start The Backend Server
+
+bash
 node server.mjs
-```
-The server will run on http://localhost:5000 and automatically create the necessary database tables and seed data.
 
-### 6. Build and deploy smart contracts (optional - for original blockchain version)
-```bash
-npm run setup
-```
+The Server Will Run On http://localhost:5000 And Automatically Create The Necessary Database Tables And Seed Data.
 
-### 7. Start the frontend development server
-```bash
+### 5. Start The Frontend Development Server
+
+bash
 npm run dev
-```
-The application will be available at http://localhost:5173
+
+The Application Will Be Available At http://localhost:5173
 
 ## Usage
 
 ### For Voters (Users)
-1. **Connect Wallet**: Click "Connect Freighter Wallet" and approve the connection
-2. **View Candidates**: Browse the list of registered candidates on the home page
-3. **Cast Vote**: Go to the Vote page, select a candidate, and submit your vote
-4. **View Results**: Check the Results page for real-time election statistics
+1. **Connect Wallet**: Click "Connect Freighter Wallet" And Approve The Connection
+2. **View Candidates**: Browse The List Of Registered Candidates On The Home Page
+3. **Cast Vote**: Go To The Vote Page, Select A Candidate, And Submit Your Vote
+4. **View Results**: Check The Results Page For Real-Time Election Statistics
 
 ### For Admins
-1. **Admin Login**: Use username "admin" and password "admin123"
-2. **Dashboard**: View election statistics and vote distribution
-3. **Manage Candidates**: Register new candidates through the admin panel
-4. **View Votes**: Monitor all submitted votes with voter details
+1. **Admin Login**: Use Username "admin" And Password "admin123"
+2. **Dashboard**: View Election Statistics And Vote Distribution
+3. **Manage Candidates**: Register New Candidates Through The Admin Panel
+4. **View Votes**: Monitor All Submitted Votes With Voter Details
 
 ## API Endpoints
 
 ### User Endpoints
-- `POST /api/auth/user-login` - Authenticate user wallet
-- `GET /api/candidates` - Get all candidates
-- `POST /api/vote` - Submit a vote
+- POST /api/auth/user-login - Authenticate User Wallet
+- GET /api/candidates - Get All Candidates
+- POST /api/vote - Submit A Vote
 
-### Admin Endpoints (require JWT token)
-- `POST /api/auth/admin-login` - Admin authentication
-- `GET /api/admin/dashboard` - Get election statistics
-- `GET /api/admin/votes` - Get all votes
-- `POST /api/admin/candidates` - Register new candidate
+### Admin Endpoints (Require JWT Token)
+- POST /api/auth/admin-login - Admin Authentication
+- GET /api/admin/dashboard - Get Election Statistics
+- GET /api/admin/votes - Get All Votes
+- POST /api/admin/candidates - Register New Candidate
 
 ## Database Schema
 
 ### Tables
-- **users**: Stores voter information (wallet_address, has_voted, vote_candidate_id)
-- **candidates**: Stores candidate information (name, description)
-- **admins**: Stores admin credentials (username, password_hash)
+- **Users**: Stores Voter Information (Wallet_Address, Has_Voted, Vote_Candidate_Id)
+- **Candidates**: Stores Candidate Information (Name, Description)
+- **Admins**: Stores Admin Credentials (Username, Password_Hash)
 
 ## Features
 
-- ✅ Wallet-based authentication using Freighter
-- ✅ One-vote-per-wallet enforcement
-- ✅ Real-time election results
-- ✅ Admin panel for candidate management
-- ✅ Secure vote storage in MySQL database
-- ✅ JWT-based admin authentication
-- ✅ Responsive UI with Chakra UI
-- ✅ Smart contract integration (Soroban)
+- ✅ Wallet-Based Authentication Using Freighter
+- ✅ One-Vote-Per-Wallet Enforcement
+- ✅ Real-Time Election Results
+- ✅ Admin Panel For Candidate Management
+- ✅ Secure Vote Storage In MySQL Database
+- ✅ JWT-Based Admin Authentication
+- ✅ Responsive UI With Chakra UI
+- ✅ Smart Contract Integration (Soroban)
 
 ## Security Features
 
-- Wallet signature verification
-- JWT token authentication for admin routes
-- Input validation and sanitization
-- SQL injection prevention
-- CORS protection
-- Vote integrity through database constraints
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- Wallet Signature Verification
+- JWT Token Authentication For Admin Routes
+- Input Validation And Sanitization
+- SQL Injection Prevention
+- CORS Protection
+- Vote Integrity Through Database Constraints
 
 ## Acknowledgments
 
-- Stellar Development Foundation for Soroban
-- Soroban documentation and community
-- React and Chakra UI communities
-- All contributors and testers
+- Stellar Development Foundation For Soroban
+- Soroban Documentation & Community
+- React And Chakra UI Communities
+- All Contributors & Testers
