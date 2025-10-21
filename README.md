@@ -50,39 +50,29 @@ To Revolutionize Democratic Processes By Providing A Transparent, Secure, And Ac
 
 ### Prerequisites
 
-- **Node v18** - Install Here: https://nodejs.org/en/download
-- **Rust** - How To Install Rust:
-  [https://soroban.stellar.org/docs/getting-started/setup#install-rust](https://soroban.stellar.org/docs/getting-started/setup#install-rust)
-- **Soroban CLI** - How To Install Soroban CLI:
-  [https://soroban.stellar.org/docs/getting-started/setup#install-the-soroban-cli](https://soroban.stellar.org/docs/getting-started/setup#install-the-soroban-cli)
-- **Stellar Account With Test Tokens On Futurenet** - How To Create New Wallet Using Soroban-CLI & Receive Test Tokens:
-  [https://soroban.stellar.org/docs/getting-started/deploy-to-futurenet#configure-an-identity](https://soroban.stellar.org/docs/getting-started/deploy-to-futurenet#configure-an-identity)
-- **Freighter Wallet** - Wallet Extension For Interact With The App. Link: https://www.freighter.app
+- **Node**  
+- **Rust**  
+- **Soroban CLI**  
+- **Stellar Account With Test Tokens On Futurenet**  
+- **Freighter Wallet**  
 
 ## Installation
 
-### 1. Clone The Repository
+### 1. Clone The Repository  
+git clone <repositoryUrl>  
+cd StellarVote  
 
-git clone <repositoryUrl>
-cd StellarVote
-
-
-### 2. Install Dependencies
-
-npm install
-
+### 2. Install Dependencies  
+npm install  
 
 ### 3. Set Up MySQL Database
-Make Sure You Have MySQL Installed And Running. Create A Database Named StellarVote.
+Make Sure You Have MySQL Installed And Running! Create A Database Named StellarVote!
 
-### 4. Start The Backend Server
+### 4. Start The Backend Server  
+node server.mjs  
+The Server Will Run On http://localhost:5000 & Automatically Create The Necessary Database Tables & Seed Data!
 
-node server.mjs
-
-The Server Will Run On http://localhost:5000 And Automatically Create The Necessary Database Tables And Seed Data.
-
-### 5. Start The Frontend Development Server
-
+### 5. Start The Frontend Development Server  
 npm run dev
 
 The Application Will Be Available At http://localhost:5173
@@ -92,7 +82,7 @@ The Application Will Be Available At http://localhost:5173
 ### For Voters (Users)
 1. **Connect Wallet**: Click "Connect Freighter Wallet" And Approve The Connection
 2. **View Candidates**: Browse The List Of Registered Candidates On The Home Page
-3. **Cast Vote**: Go To The Vote Page, Select A Candidate, And Submit Your Vote
+3. **Cast Vote**: Go To The Vote Page, Select A Candidate & Submit Your Vote
 4. **View Results**: Check The Results Page For Real-Time Election Statistics
 
 ### For Admins
