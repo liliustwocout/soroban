@@ -6,7 +6,7 @@
 </div>
 
 ### Login Screen
-![Login Screen](img/LoginScreen.png)
+![Login Screen](img/LoginScreen.png)  
 *Users Can Connect Their Freighter Wallet Or Login As Admin*
 
 ### Admin Dashboard
@@ -63,14 +63,12 @@ To Revolutionize Democratic Processes By Providing A Transparent, Secure, And Ac
 
 ### 1. Clone The Repository
 
-bash
 git clone <repositoryUrl>
 cd StellarVote
 
 
 ### 2. Install Dependencies
 
-bash
 npm install
 
 
@@ -79,14 +77,12 @@ Make Sure You Have MySQL Installed And Running. Create A Database Named StellarV
 
 ### 4. Start The Backend Server
 
-bash
 node server.mjs
 
 The Server Will Run On http://localhost:5000 And Automatically Create The Necessary Database Tables And Seed Data.
 
 ### 5. Start The Frontend Development Server
 
-bash
 npm run dev
 
 The Application Will Be Available At http://localhost:5173
